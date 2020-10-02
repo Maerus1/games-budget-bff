@@ -1,0 +1,24 @@
+{
+  "name": "games-budget-bff",
+  "version": "1.0.0",
+  "description": "A BFF service for a game budgeting app that I'll be making",
+  "main": "server.js",
+  "author": "Daniel Dorsey",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha './test/**/*.js'",
+    "test:coverage": "nyc --reporter=text yarn test --coverage"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.6.2",
+    "mongoose": "^5.10.7",
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.1.3",
+    "nyc": "^15.1.0",
+    "sinon": "^9.1.0"
+  }
+}
