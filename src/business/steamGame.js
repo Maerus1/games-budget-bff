@@ -9,7 +9,15 @@ exports.updateSteamCollection = async () => {
   try{
     await connect(url);
 
-    const gameList = await getAllSteamGames();
+    const gamesResponse = await fetch('http://api.steampowered.com/ISteamApps/GetAppList/v0002/?format=json', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const games = await gamesResponse.json();
+
+    const gameList = games.applist.apps;
     const deleteInstance = await steamGame.deleteMany({});
     const instance = await steamGame.insertMany(gameList);
 
@@ -46,17 +54,4 @@ exports.findGames = async (appName) => {
     return { status: 500, data: errorMessage };
   }
   
-}
-
-const getAllSteamGames = async () => {
-  const gamesResponse = await fetch('http://api.steampowered.com/ISteamApps/GetAppList/v0002/?format=json', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  const games = await gamesResponse.json();
-  console.info(games);
-
-  return games.applist.apps;
-}
+};
