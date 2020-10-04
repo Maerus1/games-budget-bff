@@ -91,6 +91,8 @@ describe('Business logic tests', () => {
     it('should find all the games in the mongo database given a specific search query', async () => {
       // Arrange
       const appName = 'Halo';
+      const perPage = -5;
+      const page = -2;
       const returnedGames = [
         {
           _id: 'dsfweef',
@@ -105,7 +107,7 @@ describe('Business logic tests', () => {
       };
       const searchStub = sinon.stub(steamGame, 'find').returns(returnedGames);
       // Act
-      const result = await findGames(appName);
+      const result = await findGames(appName, perPage, page);
 
       // Assert
       assert.deepEqual(result, expected);
@@ -123,7 +125,7 @@ describe('Business logic tests', () => {
       connectStub.restore();
       connectStub = sinon.stub(mongoose, 'connect').rejects(mongoError);
       // Act
-      const result = await findGames(appName);
+      const result = await findGames(appName, 1, 1);
 
       // Assert
       assert.deepEqual(result, expected);

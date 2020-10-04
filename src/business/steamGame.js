@@ -36,12 +36,20 @@ exports.updateSteamCollection = async () => {
   
 }
 
-exports.findGames = async (appName) => {
+exports.findGames = async (appName, perPage, page) => {
   const url = 'mongodb://localhost:27017';
+
+  let skip = 0;
+  if (page > 0) {
+    skip = parseInt(perPage * (page - 1));
+  }
+  if (perPage < 1) {
+    perPage = 1;
+  }
   try {
     await connect(url);
 
-    const games = await steamGame.find({ name: new RegExp('.*' + appName + '.*', 'i') });
+    const games = await steamGame.find({ name: new RegExp('.*' + appName + '.*', 'i') }, 'name appid', { limit: parseInt(perPage), skip: skip });
     console.info('Game search results: ', games);
 
     mongoose.connection.close();
